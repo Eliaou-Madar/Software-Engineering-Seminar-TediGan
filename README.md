@@ -4,9 +4,16 @@ Notre framework TediGan peut produire divers résultats pour la génération et 
 
 Notre méthode unifie pour la première fois deux tâches différentes dans le même cadre et atteint une grande accessibilité, diversité, contrôlabilité et précision pour la génération et la manipulation d'images faciales. Grâce à la conception du réseau, notre méthode prend en charge de manière inhérente les opérations continues, génération haute résolution et synthèse multimodale pour les croquis et les étiquettes sémantiques avec descriptions.
 
+![image](https://github.com/user-attachments/assets/9c91759d-8701-4c13-a463-ecb15688cd7a)
+
+
 Ensemble de données texte-image
 
 Pour réaliser la génération et la manipulation d'images guidées par texte, la première étape consiste à créer un ensemble de données contenant des images faciales photoréalistes et les descriptions correspondantes. Il existe actuellement deux ensembles de données de synthèse texte-image populaires : cub pour les oiseaux et cacao pour les scènes naturelles. Pour combler les lacunes dans l'ensemble de données de synthèse texte-image pour les visages, en suivant le format des deux ensembles de données populaires susmentionnés, nous créons 10 descriptions uniques pour chaque image dans la célébrité ahq. L'ensemble de données ahq multimodal de célébrités introduit est un ensemble de données d'images de visage à grande échelle qui contient 30 000 images de visage haute résolution, chacune ayant un masque de segmentation de haute qualité, un texte descriptif et une image avec un arrière-plan transparent.
+Vous pouvez retrouver sur ce GitHub le code qui a permis de générer le jeu de données (texte, sketch, labels, suppression de l’arrière-plan).
+
+![image](https://github.com/user-attachments/assets/2c34e8d4-d7ee-462f-af4f-2a7da948e09d)
+
 
 Idée clé du cadre et inversion
 
@@ -18,6 +25,9 @@ Module d’inversion StyleGAN
 
 Le module d'inversion vise à former un encodeur d'image d'inversion StyleGAN qui peut mapper un réelImage du visage dans l'espace latent d'un modèle gone de style fixe pré-entraîné sur le jeu de données ffhq. La raison pour laquelle nous inversons un modèle gone entraîné au lieu d'en former un à partir de zéro est que de cette façon, nous pouvons aller au-delà des limites d'un jeu de données d'images de texte appariées. Le style gone est entraîné dans un environnement non supervisé et couvre une qualité bien supérieure et une plus grande diversité, ce qui rend notre méthode capable de produire des résultats édités satisfaisants avec des images dans la nature afin de faciliter l'alignement ultérieur avec les attributs de texte.
 Notre objectif pour l'inversion n'est pas seulement de reconstruire l'image d'entrée par valeurs de pixels, mais aussi d'acquérir le code inversé qui est sémantiquement significatif et interprétable. Le processus d'apprentissage de l'encodeur d'image peut être formulé comme les fonctions objectives grâce à l'encodeur d'image appris. Nous pouvons mapper une image réelle dans l'espace w et obtenir un code latent w. w est le code projeté de l'incorporation z dans l'espace latent d'entrée z en utilisant un réseau de mappage non linéaire f implémenté à l'aide d'un MLP à huit couches. Le code obtenu est garanti pour s'aligner sur le domaine sémantique du générateur de style gone et peut être utilisé pour exploiter le cross-modal.
+
+![image](https://github.com/user-attachments/assets/8bc93471-31f6-4530-96d1-3eb68894ddcd)
+
 
 Similarité visuo-linguistique
 
