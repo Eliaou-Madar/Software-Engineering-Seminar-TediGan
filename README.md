@@ -1,4 +1,4 @@
-peut produire divers résultats pour la génération et la manipulation d'images faciales avec un guidage textuel.
+Notre framework TediGan peut produire divers résultats pour la génération et la manipulation d'images faciales avec un guidage textuel.
 
 Étant donné une description textuelle, la génération de texte en image peut produire des images cohérentes avec le texte. Étant donné un texte et une image, la manipulation d'image guidée par texte consiste à modifier les attributs pertinents uniquement en gardant inchangés ceux qui ne sont pas liés.
 
