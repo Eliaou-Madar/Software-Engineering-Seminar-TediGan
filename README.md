@@ -33,9 +33,15 @@ Similarité visuo-linguistique
 
 Une fois le module d'inversion entraîné, étant donné une image réelle, nous pouvons la mapper dans l'espace w du style gone. Le problème suivant est de savoir comment entraîner un encodeur de texte qui apprend les associations et les alignements entre l'image et le texte au lieu d'entraîner un encodeur de texte de la même manière que l'encodeur d'image. Nous proposons un module de similarité visuo-linguistique pour projeter l'image et le texte dans un espace d'intégration commun, l'espace w. Étant donné une image réelle et ses descriptions, nous les encodons dans l'espace w en utilisant l'encodeur d'image précédemment entraîné et un encodeur de texte. Le code latent obtenu est la concaténation de l vecteurs w de dimension c différents, un pour chaque couche d'entrée du style gone. L'alignement multimodal peut être entraîné avec la fonction objective. Ce module réalise l'alignement au niveau de l'instance, c'est-à-dire l'apprentissage des correspondances entre les attributs visuels et linguistiques en exploitant la démêlabilité du style gone.
 
+![image](https://github.com/user-attachments/assets/3fbc1fb0-4ac1-4c6f-9e73-6625e7193612)
+
+
 Optimisation au niveau de l’instance
 
 L'un des principaux défis de l'optimisation au niveau de l'instance du visage est la préservation de l'identité en raison de la capacité de représentation limitée. Apprendre un mappage inverse parfait avec un encodeur seul n'est pas facile pour préserver l'identité. Certaines méthodes récentes intègrent une perte de reconnaissance faciale dédiée pour mesurer la similarité cosinus entre l'image de sortie et sa source. Différente de leurs méthodes de manipulation d'image guidée par texte, nous implémentons un module d'optimisation au niveau de l'instance pour manipuler précisément les attributs souhaités cohérents avec les descriptions tout en reconstruisant fidèlement ceux qui ne sont pas concernés. Nous utilisons le code de voie inversé z comme initialisation et l'encodeur d'image est inclus comme régularisation pour préserver le code de voie dans le domaine sémantique du générateur. La fonction objective pourL'optimisation est résumée comme suit : les deux tâches différentes, à savoir la génération d'images de texte et la manipulation d'images guidées par le texte, sont unifiées en un seul cadre par notre mécanisme de contrôle proposé.
+
+![image](https://github.com/user-attachments/assets/fb502d55-ae45-47ef-9148-a190a673767b)
+
 
 Mécanisme de contrôle par mélange de styles
 
