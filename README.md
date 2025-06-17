@@ -102,8 +102,75 @@ Comparaison.
 Nous évaluons notre méthode proposée sur la comparaison de texte et les partitions d'images en la comparant aux approches de AttGAN , ControlGAN , DM-GAN et DF-GAN pour la génération d'images
 ![image](https://github.com/user-attachments/assets/8f99b8c5-9112-4d2c-8991-78b79b98cd45)
 
-Et en la comparant à ManiGAN pour la manipulation d'images en langage naturel.
+Les flèches ↓ et ↑ à côté de chaque colonne indiquent si l’on cherche à minimiser (↓) ou maximiser (↑) la valeur de la métrique (↓ on veut la plus petite valeure et ↑ on voudra la plus haute valeure ).
+![image](https://github.com/user-attachments/assets/b986b09e-c531-431d-b9c9-e03cb7f400ce)
+
+TediGAN a
+
+le FID le plus bas (106,37) ⇒ ses images sont statistiquement les plus proches du réel
+
+le LPIPS le plus bas (0,456) ⇒ ses images ont la meilleure fidélité perçue
+
+la meilleure précision (25,3 %) ⇒ ses images correspondent le plus fidèlement au texte
+
+le meilleur réalisme (31,7 %) ⇒ ses images sont jugées les plus « réelles » par des humains
+
+Explication des parametres:
+
+FID (Fréchet Inception Distance)
+
+Quoi ? Mesure la distance statistique entre la distribution des caractéristiques (features) extraites d’images générées et celle d’images réelles, à l’aide d’un réseau Inception-v3 pré-entraîné.
+
+Pourquoi ? Plus la distance est faible, plus les images synthétiques sont “indiscernables” du vrai jeu de données sur le plan global (textures, formes, couleurs).
+
+Objectif : Minimiser.
+
+LPIPS (Learned Perceptual Image Patch Similarity)
+
+Quoi ? Évalue la similarité perceptuelle locale entre deux images (générée vs. réelle) via un réseau profond entraîné pour refléter la perception humaine.
+
+Pourquoi ? Contrairement à une simple erreur pixel à pixel, LPIPS se concentre sur ce qui « saute aux yeux » (détails, contours, textures).
+
+Objectif : Minimiser.
+
+Accuracy (classification accuracy)
+
+Quoi ? Pourcentage d’images générées correctement reconnues par un classificateur d’attributs (ou de catégories) comme correspondant au texte de commande.
+
+Pourquoi ? Mesure la fidélité sémantique : la capacité du modèle à traduire correctement la description textuelle en contenu visuel.
+
+Objectif : Maximiser.
+
+Realism (réalisme perçu)
+
+Quoi ? Pourcentage d’images que des évaluateurs humains (ou un réseau “discriminateur” entraîné) jugent suffisamment “réelles” pour passer pour de vraies photos.
+
+Pourquoi ? Évalue l’aspect naturel et plausible des visages générés, indépendamment de la correspondance texte.
+
+Objectif : Maximiser.
+
+
+Comparaison de notre modele avec ManiGAN pour la manipulation d'images avec du texte.
 ![image](https://github.com/user-attachments/assets/ff13f8a5-b876-4a33-adf3-3c7f95f48ed8)
+
+![image](https://github.com/user-attachments/assets/62371819-a3a8-4ec8-a113-5134fc892950)
+
+Sur CelebA, notre modèle a :
+
+le FID le plus bas (107,25) ⇒ ses images sont statistiquement les plus proches du réel.
+
+la meilleure précision (59,1 %) ⇒ ses images correspondent le plus fidèlement au texte de commande.
+
+le meilleur réalisme (63,8 %) ⇒ ses images sont jugées les plus « réelles » par des humains.
+
+Sur Non-CelebA, notre modèle a :
+
+le FID le plus bas (135,47) ⇒ ses images restent statistiquement plus proches du réel que celles de ManiGAN.
+
+la meilleure précision (87,2 %) ⇒ il traduit la description textuelle en contenu visuel de façon nettement plus fidèle.
+
+le meilleur réalisme (78,3 %) ⇒ il produit les visages les plus naturels et plausibles pour des observateurs humains.
+
 
 Nous illustrons également la comparaison de l'esquisse (label) à l'image et de l'étiquette (sketch) à la génération d'image.
 ![image](https://github.com/user-attachments/assets/5faafd2b-4061-4edf-bb31-7d147bf5ca0f)
