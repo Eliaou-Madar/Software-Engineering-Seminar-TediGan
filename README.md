@@ -92,6 +92,7 @@ Les méthodes précédentes produisent des résultats qui ressemblent à une sim
 Analyse par calque et évaluation
 
 En général, les calques du générateur à basse résolution contrôlent les styles de haut niveau tels que les lunettes et la pose de la tête. Les calques du milieu contrôlent la coiffure et l'expression faciale, tandis que les calques finaux contrôlent les schémas de couleurs et les détails fins. Nous effectuons une analyse par calque sur le style pré-entraîné que nous avons utilisé dans la plupart des expériences, qui consiste à générer des images de 256 fois 256 et qui comporte 14 calques du vecteur intermédiaire, en nous basant sur les observations empiriques. Nous listons les attributs représentés par les différentes calques d'un style de 14 calques dans le tableau. Les calques de 11 à 14 représentent des micro-caractéristiques ou des structures fines telles que des taches de rousseur ou des pores de la peau, qui peuvent être considérés comme la variation stochastique. Ces variations stochastiques sont particulièrement importantes pour les images haute résolution car elles produisent beaucoup de détails du visage et améliorent la perception visuelle sans affecter les principales structures et attributs de l'image synthétisée.
+
 ![image](https://github.com/user-attachments/assets/261629dd-32f5-4805-b583-05a36f7ddb95)
 
 
@@ -100,9 +101,11 @@ En général, les calques du générateur à basse résolution contrôlent les s
 Comparaison.
 
 Nous évaluons notre méthode proposée sur la comparaison de texte et les partitions d'images en la comparant aux approches de AttGAN , ControlGAN , DM-GAN et DF-GAN pour la génération d'images
+
 ![image](https://github.com/user-attachments/assets/8f99b8c5-9112-4d2c-8991-78b79b98cd45)
 
 Les flèches ↓ et ↑ à côté de chaque colonne indiquent si l’on cherche à minimiser (↓) ou maximiser (↑) la valeur de la métrique (↓ on veut la plus petite valeure et ↑ on voudra la plus haute valeure ).
+
 ![image](https://github.com/user-attachments/assets/b986b09e-c531-431d-b9c9-e03cb7f400ce)
 
 TediGAN a
@@ -151,6 +154,7 @@ Objectif : Maximiser.
 
 
 Comparaison de notre modele avec ManiGAN pour la manipulation d'images avec du texte.
+
 ![image](https://github.com/user-attachments/assets/ff13f8a5-b876-4a33-adf3-3c7f95f48ed8)
 
 ![image](https://github.com/user-attachments/assets/62371819-a3a8-4ec8-a113-5134fc892950)
@@ -173,7 +177,9 @@ le meilleur réalisme (78,3 %) ⇒ il produit les visages les plus naturels et p
 
 
 Nous illustrons également la comparaison de l'esquisse (label) à l'image et de l'étiquette (sketch) à la génération d'image.
+
 ![image](https://github.com/user-attachments/assets/5faafd2b-4061-4edf-bb31-7d147bf5ca0f)
+
 ![image](https://github.com/user-attachments/assets/e06f4ca5-6c67-4b74-8ff2-3562c733a3a9)
 
 Ces résultats expérimentaux démontrent la supériorité de notre méthode en termes d'efficacité de la synthèse d'images, la capacité de générer des résultats de haute qualité et l'extensibilité pour les entrées multimodales.
