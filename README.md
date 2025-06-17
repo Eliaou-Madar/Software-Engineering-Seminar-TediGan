@@ -92,6 +92,8 @@ Les méthodes précédentes produisent des résultats qui ressemblent à une sim
 Analyse par calque et évaluation
 
 En général, les calques du générateur à basse résolution contrôlent les styles de haut niveau tels que les lunettes et la pose de la tête. Les calques du milieu contrôlent la coiffure et l'expression faciale, tandis que les calques finaux contrôlent les schémas de couleurs et les détails fins. Nous effectuons une analyse par calque sur le style pré-entraîné que nous avons utilisé dans la plupart des expériences, qui consiste à générer des images de 256 fois 256 et qui comporte 14 calques du vecteur intermédiaire, en nous basant sur les observations empiriques. Nous listons les attributs représentés par les différentes calques d'un style de 14 calques dans le tableau. Les calques de 11 à 14 représentent des micro-caractéristiques ou des structures fines telles que des taches de rousseur ou des pores de la peau, qui peuvent être considérés comme la variation stochastique. Ces variations stochastiques sont particulièrement importantes pour les images haute résolution car elles produisent beaucoup de détails du visage et améliorent la perception visuelle sans affecter les principales structures et attributs de l'image synthétisée.
+![image](https://github.com/user-attachments/assets/261629dd-32f5-4805-b583-05a36f7ddb95)
+
 
 ![image](https://github.com/user-attachments/assets/39de1358-952b-4a49-a257-4289bae9586f)
 
