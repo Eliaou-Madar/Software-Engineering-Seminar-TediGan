@@ -17,9 +17,12 @@ Vous pouvez retrouver sur ce GitHub le code qui a permis de générer le jeu de 
 
 Idée clé du cadre et inversion
 
-L'idée clé de notre cadre est de mapper notre image texte TediGAN et d'autres modalités dans l'espace latent d'un générateur de style gone pré-entraîné où les informations multimodales peuvent apprendre les relations de correspondance et faire les alignements correspondants entre le texte et l'image. Pour ce faire, nous apprenons d'abord l'inversion qui consiste à entraîner un encodeur d'image à mapper les images réelles à l'espace latent de telle sorte que tous les codes produits par l'encodeur puissent être récupérés à la fois au niveau du pixel et au niveau sémantique.
+L'idée clé de notre cadre est de mapper notre image texte TediGAN et d'autres modalités dans l'espace latent d'un générateur de StyleGan pré-entraîné où les informations multimodales peuvent apprendre les relations de correspondance et faire les alignements correspondants entre le texte et l'image. Pour ce faire, nous apprenons d'abord l'inversion qui consiste à entraîner un encodeur d'image à mapper les images réelles à l'espace latent de telle sorte que tous les codes produits par l'encodeur puissent être récupérés à la fois au niveau du pixel et au niveau sémantique.
 
 Nous utilisons ensuite la caractéristique hiérarchique de l'espace w pour apprendre la correspondance texte-image en mappant le texte dans le même espace latent conjoint partagé avec l'intégration visuelle. La représentation par couche du style gone apprend le démêlage des fragments sémantiques, des attributs ou des objets. L'intégration visuelle et l'intégration linguistique ont la même forme l fois c, ce qui signifie avoir l couches dans chacune avec un code latent à c dimensions. Le mécanisme de contrôle peut sélectionner des attributs de couches spécifiques et mélanger ces couches du code de style en remplaçant partiellement les couches de contenu correspondantes pour préserver l'identité et la manipulation.
+
+![image](https://github.com/user-attachments/assets/82d7c236-745e-426a-bede-87d144f76802)
+
 
 Module d’inversion StyleGAN
 
@@ -47,24 +50,61 @@ Mécanisme de contrôle par mélange de styles
 
 Notre mécanisme est basé sur le mélange de styles. La représentation par couches du style appris démêle les fragments sémantiques, les attributs ou les objets en général. La couche de glace du code latent représente différents attributs et est introduite dans la couche de glace du générateur. La modification de la valeur d'une certaine couche modifierait les attributs correspondants de l'image.
 
-Étant donné deux codes de même taille, le code de style wc avec la forme l fois c indiquant le code de contenu et le code de style. Ce mécanisme de contrôle sélectionne des attributs de couches spécifiques et mélange ces couches du code de style en remplaçant partiellement les couches correspondantes du contenu pour la génération de texte en image. Les images produites doivent être cohérentes avec la description textuelle.
-Le code de contenu doit donc être le code linguistique et le code de voie échantillonné de manière aléatoire avec la même taille agit comme code de style pour fournir de la diversité pour la manipulation d'images guidée par le texte. Le code de contenu est l'intégration visuelle tandis que le code de style est l'intégration linguistique. Les couches à mélanger doivent être pertinentes pour le texte afin de modifier les attributs pertinents.
+Étant donné deux codes de même taille, le code de style wc avec la forme l fois c indiquant le code de contenu et le code de style. Ce mécanisme de contrôle sélectionne des attributs de couches spécifiques et mélange ces couches du code de style en remplaçant partiellement les couches correspondantes du contenu.
 
-Français : seulement en gardant les éléments non liés inchangés pour produire les divers résultats. Tout ce que nous devons faire est de garder les couches liées au texte inchangées et de remplacer les autres par le code latent ws échantillonné aléatoirement et le code de contenu wc pourrait être une image d'étiquette de croquis et du bruit qui rend notre pistolet en peluche réalisable pour la synthèse d'images à partir d'entrées multimodales.
+![image](https://github.com/user-attachments/assets/7c5bd0d6-f69e-4c48-a396-06dc2a83188d)
+
+Pour la génération de texte en image.
+
+Les images produites doivent être cohérentes avec la description textuelle.
+Le code de contenu doit donc être le code linguistique et le code de voie échantillonné de manière aléatoire avec la même taille agit comme code de style pour fournir de la diversité.
+
+![image](https://github.com/user-attachments/assets/ac60e237-3c1c-4865-abeb-dfaaf45101be)
+
+
+Pour la manipulation d'images guidée par le texte.
+
+Le code de contenu est l'intégration visuelle tandis que le code de style est l'intégration linguistique. Les couches à mélanger doivent être pertinentes pour le texte afin de modifier les attributs pertinents.
+
+![image](https://github.com/user-attachments/assets/a8de79b3-8fdb-4bd9-8d11-38812aa28c72)
+
+
+
+Seulement en gardant les éléments non liés inchangés pour produire les divers résultats. Tout ce que nous devons faire est de garder les couches liées au texte inchangées et de remplacer les autres par le code latent ws échantillonné aléatoirement et le code de contenu wc pourrait être une image d'étiquette de croquis et du bruit qui rend notre pistolet en peluche réalisable pour la synthèse d'images à partir d'entrées multimodales.
+
+![image](https://github.com/user-attachments/assets/76a7b059-6087-47bf-8227-b5d3620977e1)
+
 
 En raison du mécanisme de contrôle, notre méthode prend en charge de manière inhérente la synthèse d'images à partir d'entrées multimodales telles que des croquis et des étiquettes sémantiques avec des descriptions. Par exemple, si nous voulons générer des images à partir d'une autre modalité avec un guidage textuel, prenons le croquis comme exemple : nous pouvons entraîner un encodeur d'image de croquis supplémentaire de la même manière que l'encodeur d'image réelle et laisser les autres parties inchangées.
 
+![image](https://github.com/user-attachments/assets/139a6599-9053-4131-8275-2365f35a343a)
+
+
 Haute résolution et variations stochastiques
 
-Notre méthode est également capable de générer des images 10 24 x 10 24 de haute qualité. Les images haute résolution contiennent beaucoup de détails faciaux et ne peuvent pas être obtenues par un simple échantillonnage à partir des résolutions inférieures, rendant les variations stochastiques particulièrement importantes car elles améliorent la perception visuelle sans affecter les principales structures et attributs de l'image synthétisée.
+Notre méthode est également capable de générer des images 1024 x 1024 de haute qualité. Les images haute résolution contiennent beaucoup de détails faciaux et ne peuvent pas être obtenues par un simple échantillonnage à partir des résolutions inférieures, rendant les variations stochastiques particulièrement importantes car elles améliorent la perception visuelle sans affecter les principales structures et attributs de l'image synthétisée.
 
-Les méthodes précédentes produisent des résultats qui ressemblent à une simple combinaison d'attributs visuels de différentes échelles d'image. Certains des attributs contenus dans le texte n'apparaissent pas dans l'image générée et l'image générée ressemble à une peinture sans relief et manque de détails. Cet aspect pictural sans relief serait considérablement évident et irrémédiable lors de la génération d'images à plus haute résolution en utilisant les méthodes actuelles. Notre méthode peut produire des images diverses et de haute qualité avec une résolution sans précédent à 10 24.
+![image](https://github.com/user-attachments/assets/bf277ed5-6161-455d-828c-9fb897c91ecb)
+
+
+Les méthodes précédentes produisent des résultats qui ressemblent à une simple combinaison d'attributs visuels de différentes échelles d'image. Certains des attributs contenus dans le texte n'apparaissent pas dans l'image générée et l'image générée ressemble à une peinture sans relief et manque de détails. Cet aspect pictural sans relief serait considérablement évident et irrémédiable lors de la génération d'images à plus haute résolution en utilisant les méthodes actuelles. Notre méthode peut produire des images diverses et de haute qualité avec une résolution sans précédent à 1024.
 
 Analyse par calque et évaluation
 
 En général, les calques du générateur à basse résolution contrôlent les styles de haut niveau tels que les lunettes et la pose de la tête. Les calques du milieu contrôlent la coiffure et l'expression faciale, tandis que les calques finaux contrôlent les schémas de couleurs et les détails fins. Nous effectuons une analyse par calque sur le style pré-entraîné que nous avons utilisé dans la plupart des expériences, qui consiste à générer des images de 256 fois 256 et qui comporte 14 calques du vecteur intermédiaire, en nous basant sur les observations empiriques. Nous listons les attributs représentés par les différentes calques d'un style de 14 calques dans le tableau. Les calques de 11 à 14 représentent des micro-caractéristiques ou des structures fines telles que des taches de rousseur ou des pores de la peau, qui peuvent être considérés comme la variation stochastique. Ces variations stochastiques sont particulièrement importantes pour les images haute résolution car elles produisent beaucoup de détails du visage et améliorent la perception visuelle sans affecter les principales structures et attributs de l'image synthétisée.
 
-Nous évaluons notre méthode proposée sur la comparaison de texte et les partitions d'images en la comparant aux approches de pointe et en contrôlant gone dmgon et dfgon pour la génération d'images et en la comparant à montegon pour la manipulation d'images en langage naturel. descriptions: toutes les méthodes sont recyclées avec les paramètres par défaut sur l'ensemble de données multimodal celeb ahq proposé.
-Nous illustrons également la comparaison de l'esquisse à l'image et de l'étiquette à la génération d'image. Ces résultats expérimentaux démontrent la supériorité de notre méthode en termes d'efficacité de la synthèse d'images, la capacité de générer des résultats de haute qualité et l'extensibilité pour les entrées multimodales.
+![image](https://github.com/user-attachments/assets/39de1358-952b-4a49-a257-4289bae9586f)
 
-Mercidémontrer la supériorité de notre méthode en termes d'efficacité de synthèse d'images, de capacité à générer des résultats de haute qualité et d'extensibilité pour les entrées multimodales. Mercidémontrer la supériorité de notre méthode en termes d'efficacité de synthèse d'images, de capacité à générer des résultats de haute qualité et d'extensibilité pour les entrées multimodales.
+Comparaison.
+
+Nous évaluons notre méthode proposée sur la comparaison de texte et les partitions d'images en la comparant aux approches de AttGAN , ControlGAN , DM-GAN et DF-GAN pour la génération d'images
+![image](https://github.com/user-attachments/assets/8f99b8c5-9112-4d2c-8991-78b79b98cd45)
+
+Et en la comparant à ManiGAN pour la manipulation d'images en langage naturel.
+![image](https://github.com/user-attachments/assets/ff13f8a5-b876-4a33-adf3-3c7f95f48ed8)
+
+Nous illustrons également la comparaison de l'esquisse (label) à l'image et de l'étiquette (sketch) à la génération d'image.
+![image](https://github.com/user-attachments/assets/5faafd2b-4061-4edf-bb31-7d147bf5ca0f)
+![image](https://github.com/user-attachments/assets/e06f4ca5-6c67-4b74-8ff2-3562c733a3a9)
+
+Ces résultats expérimentaux démontrent la supériorité de notre méthode en termes d'efficacité de la synthèse d'images, la capacité de générer des résultats de haute qualité et l'extensibilité pour les entrées multimodales.
